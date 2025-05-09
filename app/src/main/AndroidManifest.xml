@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+    <application
+        android:name=".MainApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@drawable/icon"
+        android:label="@string/app_name"
+        android:roundIcon="@drawable/icon"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.Marketix"
+        tools:ignore="LockedOrientationActivity">
+        <activity
+            android:name=".presentation.webpage.PaymentWebPageActivity"
+            android:exported="false" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <activity
+            android:name=".presentation.fullvideo.FullVideoActivity"
+            android:exported="false"
+            android:screenOrientation="fullSensor"
+            tools:ignore="DiscouragedApi" />
+        <activity
+            android:name=".presentation.marketpayment.MarketPaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.signals.MarketSignalsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.fullimage.FullImageActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.courselearning.CourseLearningActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.coursepayment.CoursePaymentActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.editaccount.EditAccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.aboutus.AboutUsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.updatepassword.UpdatePasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.forgetpassword.ForgetPasswordActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.signupverification.SignupVerificationActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.account.AccountActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.start_trading.StartTradingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.learn_trading.LearnTradingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.history.HistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.announcement.AnnouncementActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.dashboard.DashboardActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.welcome.WelcomeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.onboarding.OnBoardingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.signup.SignupActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.splash.SplashActivity"
+            android:exported="true"
+            android:label="@string/app_name"
+            android:theme="@style/Theme.Marketix">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".presentation.login.LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Marketix">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

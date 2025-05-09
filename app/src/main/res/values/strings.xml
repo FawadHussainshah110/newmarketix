@@ -1,0 +1,97 @@
+<resources>
+    <string name="app_name">Marketix</string>
+
+    <string name="onboarding_title_1">Portfolio</string>
+    <string name="onboarding_dec_1">Jump Start your Crypto</string>
+    <string name="onboarding_title_2">Crypto</string>
+    <string name="onboarding_dec_2">Buy the Best</string>
+    <string name="onboarding_title_3">Wallet</string>
+    <string name="onboarding_dec_3">Setup Safe and Secure</string>
+    <string name="get_started">Get Started</string>
+
+    <string name="text_login">Login</string>
+    <string name="text_email">Email</string>
+    <string name="hint_enter_email_address">Enter email address</string>
+    <string name="text_old_password">Old Password</string>
+    <string name="text_password">New Password</string>
+    <string name="hint_password">**********</string>
+    <string name="dont_have_an_account">Dont have an account?</string>
+    <string name="signup">Sign up</string>
+    <string name="text_change_password">Change Password</string>
+    <string name="text_logout">Logout</string>
+
+    <string name="text_signup">Create an Account</string>
+    <string name="text_name">Name</string>
+    <string name="full_name">Full Name</string>
+    <string name="text_address">Address</string>
+    <string name="address">Enter your full address</string>
+    <string name="text_phone_number">Phone Number</string>
+    <string name="text_confirm_password">Confirm Password</string>
+    <string name="register_now">Register Now</string>
+    <string name="text_welcome">Welcome!</string>
+    <string name="text_proceed">Proceed</string>
+    <string name="text_home">👋 Welcome</string>
+    <string name="text_announcement">Announcement</string>
+    <string name="text_history">History</string>
+    <string name="text_history_detail">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
+    <string name="text_learn_first">Learn the basics and advanced strategies of trading and investment.</string>
+    <string name="text_courses">Courses</string>
+    <string name="text_view_detail">View Details</string>
+    <string name="text_courses_detail">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</string>
+    <string name="text_start_trading">Start Trading</string>
+    <string name="text_profile">Profile</string>
+    <string name="text_about_us">About Us</string>
+
+
+    <string name="version_name">Version : %s</string>
+    <string name="text_hello">Hello</string>
+    <string name="text_phone_verification">Phone Verification</string>
+    <string name="text_phone_verification_detail">We sent you a SMS message contains a verification code to this number</string>
+    <string name="text_did_not_received_code">Didn\'t you received any code?</string>
+    <string name="text_verify">Verify</string>
+    <string name="text_resend_code">Re-send code</string>
+    <string name="text_all_fields_must_require">All fields must required</string>
+    <string name="please_enter_valid_email">Please enter valid email</string>
+    <string name="location">Location</string>
+    <string name="set_current_location">Set current location</string>
+    <string name="next">Next</string>
+    <string name="save">Save</string>
+    <string name="want_to_exit_app">Do you want to exit the app?</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="ok">OK</string>
+    <string name="alert">Alert</string>
+
+    <string name="invalid_input_401">Unauthenticated user</string>
+    <string name="internet_is_not_working">Internet is not working</string>
+    <string name="successfully_registered_new_user">Successfully registered new User.</string>
+    <string name="successfully_verified_email">Successfully verified email.</string>
+    <string name="text_pin">OTP Pin</string>
+    <string name="enter_otp_pin">Enter OTP Pin</string>
+    <string name="enter_new_password">Enter New Password</string>
+    <string name="text_email_verification">Email Verification</string>
+    <string name="text_email_verification_dec">Enter the code from email\nwe just sent you</string>
+    <string name="text_forget_password_dec">Enter the email address\nassociated with your account</string>
+    <string name="text_update_password_dec">Your new password must be different\nfrom previously used password</string>
+    <string name="text_reset_password_dec">Enter your new password to\nrecover Account.</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="hint_forget_password">Forgot password?</string>
+    <string name="text_forget_password">Forgot Password</string>
+    <string name="text_update_password">Update Password</string>
+    <string name="text_email_here">Mail Address Here</string>
+    <string name="text_recover_password">Recover Password</string>
+    <string name="text_enter_new_password">Enter New Password</string>
+    <string name="successfully_update_password">Successfully update password</string>
+    <string name="text_update_profile">Update Profile</string>
+    <string name="text_purchase_now">Purchase Now</string>
+    <string name="text_payment_detail">Payment Details</string>
+    <string name="text_market">Markets</string>
+    <string name="text_finished_trade">Finished Trades</string>
+    <string name="text_active_trades">Active Trades</string>
+
+    <string name="please_choose_one">Please choose one</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+
+
+</resources>

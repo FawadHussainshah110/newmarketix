@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:id="@+id/navhome" android:title="Home"
+        android:icon="@drawable/baseline_home_24"/>
+    <item android:id="@+id/navlearn" android:title="Learn" android:icon="@drawable/ic_learn_trading"/>
+    <item android:id="@+id/navtrading" android:title="Trading" android:icon="@drawable/baseline_insert_chart_outlined_24"/>
+    <item android:id="@+id/navannouncemnt" android:title="Announcement" android:icon="@drawable/ic_announcement" />
+    <item android:id="@+id/navhistory" android:title="History" android:icon="@drawable/ic_history" />
+</menu>

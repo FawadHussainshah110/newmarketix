@@ -1,0 +1,113 @@
+<resources>
+
+    <style name="AutoCompleteTextViewDropDown">
+        <item name="android:clickable">false</item>
+        <item name="android:cursorVisible">false</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="my_dialog_theme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorAccent</item> <!--header background-->
+        <item name="android:windowBackground">@color/colorPrimary</item> <!--calendar background-->
+        <item name="android:colorControlActivated">@color/colorAccent</item> <!--selected day-->
+        <item name="android:textColorPrimary">@color/darkBlackColor</item> <!--days of the month-->
+        <item name="android:textColorSecondary">@color/colorAccent</item> <!--days of the week-->
+        <item name="android:buttonTint">@color/colorOrange</item>
+        <item name="android:buttonTintMode">@color/colorOrange</item>
+    </style>
+
+    <style name="AppTheme.DatePickerDialog" parent="Theme.MaterialComponents.Light.Dialog">
+        <item name="android:colorAccent">@color/colorPrimary</item>
+        <item name="android:colorControlActivated">@color/colorPrimaryDark</item>
+        <item name="android:buttonBarPositiveButtonStyle">@color/colorOrange</item>
+        <item name="android:buttonBarNegativeButtonStyle">@color/colorOrange</item>
+        <item name="android:buttonBarNeutralButtonStyle">@color/colorOrange</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize50Percent" parent="">
+        <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize24Percent" parent="">
+        <item name="cornerSize">24%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize16Percent" parent="">
+        <item name="cornerSize">16%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize12Percent" parent="">
+        <item name="cornerSize">12%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize8Percent" parent="">
+        <item name="cornerSize">8%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize6Percent" parent="">
+        <item name="cornerSize">10%</item>
+    </style>
+
+    <style name="ShapeAppearanceOverlay.App.CornerSize4Percent" parent="">
+        <item name="cornerSize">4%</item>
+    </style>
+
+
+    <style name="ButtonStyle" parent="@android:style/Widget.Button">
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:padding">@dimen/_10sdp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="fontPath">fonts/NexaBold.otf</item>
+    </style>
+
+    <style name="TextInputLayoutStyle" parent="Theme.AppCompat">
+        <item name="colorControlNormal">@android:color/white</item>
+        <item name="colorControlActivated">@android:color/white</item>
+    </style>
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="RatingBar" parent="Theme.AppCompat">
+        <item name="colorControlHighlight">#faad43</item>
+        <item name="colorControlNormal">#D0D0D0</item>
+        <item name="colorControlActivated">#faad43</item>
+    </style>
+
+    <style name="DashboardViewPagerTabsAppearance" parent="TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Widget.Order.Backdrop" parent="">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
+
+
+    <!-- Customise the theme.-->
+    <style name="YourCustomTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <!-- TOOLBAR COLOR. -->
+        <item name="colorPrimary">#000000</item>
+
+        <!--FIELDS HIGHLIGHT COLOR-->
+        <item name="colorAccent">#000</item>
+
+        <!--PAY/DONE BUTTON COLOR-->
+        <item name="colorButtonNormal">#000000</item>
+
+        <!--HELPER LABELS AND FIELD UNSELECTED FIELD COLOR-->
+        <item name="colorControlNormal">#000</item>
+
+    </style>
+
+</resources>

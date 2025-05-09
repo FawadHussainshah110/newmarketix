@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.dashboard.DashboardActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.example.marketix.util.Constants" />
+
+        <variable
+            name="viewModel"
+            type="com.example.marketix.presentation.dashboard.DashboardViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_color">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <TextView
+                android:id="@+id/tv_home"
+                fontPath="fonts/NexaBold.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="@string/text_home"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/_20ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_backpress"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginStart="4dp"
+                android:onClick="@{()->viewModel.backPressClick()}"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_back_button"
+                app:layout_constraintBottom_toBottomOf="@id/tv_home"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_home"
+                app:layout_constraintVertical_bias="1.0" />
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginEnd="8dp"
+                android:onClick="@{()->viewModel.openProfileClick()}"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_profile_user"
+                app:layout_constraintBottom_toBottomOf="@id/tv_home"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_home" />
+
+
+            <View
+                android:id="@+id/viewTop"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/dividerViewdimBackground"
+                app:layout_constraintTop_toBottomOf="@+id/tv_home" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/ivHome"
+                android:layout_width="match_parent"
+                android:layout_height="158dp"
+
+
+                android:layout_marginStart="8dp"
+
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/homeimage1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/home1"
+                app:layout_constraintBottom_toTopOf="@+id/cl_buttons"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/viewTop"
+                app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize8Percent">
+
+
+            </com.google.android.material.imageview.ShapeableImageView>
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_buttons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ivHome">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_1"
+                    android:layout_width="345dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+
+
+                    android:background="@drawable/boarder_rounded_with_bg"
+                    android:onClick="@{()->viewModel.learnTradingClick()}"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toTopOf="@+id/cl_2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_"
+                        app:layout_constraintTop_toTopOf="@+id/tv_" />
+
+                    <TextView
+                        android:id="@+id/tv_"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="304dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="@string/text_learn_first"
+                        android:textColor="#CDD5DF"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_1" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_11"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/ic_learn_trading"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_1"
+                        app:layout_constraintHorizontal_bias="0.592"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.171" />
+
+                    <TextView
+                        android:id="@+id/tv_1"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="294dp"
+                        android:layout_height="23dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Learn First"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.761"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:layout_width="330dp"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="#1AFFFFFF"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_1">
+
+                    </FrameLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_2"
+                    android:layout_width="345dp"
+                    android:layout_height="wrap_content"
+
+                    android:layout_margin="2dp"
+                    android:background="@drawable/boarder_rounded_with_bg"
+                    android:onClick="@{()->viewModel.startTradingClick()}"
+                    app:layout_constraintBottom_toTopOf="@+id/cl_3"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_1">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_1"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_2"
+                        app:layout_constraintTop_toTopOf="@+id/tv_2" />
+
+                    <TextView
+                        android:id="@+id/tv_2"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="304dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Trade in real-time with live market updates and analytics."
+                        android:textColor="#CDD5DF"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_12" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_113"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+
+                        android:layout_marginEnd="8dp"
+                        android:src="@drawable/baseline_insert_chart_outlined_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_2"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_12"
+                        app:layout_constraintHorizontal_bias="0.592"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.171" />
+
+                    <TextView
+                        android:id="@+id/tv_12"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="294dp"
+                        android:layout_height="23dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Start Trading"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.761"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:layout_width="330dp"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="#1AFFFFFF"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_2"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_12">
+
+                    </FrameLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_3"
+                    android:layout_width="345dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/boarder_rounded_with_bg"
+                    android:onClick="@{()->viewModel.announcementClick()}"
+                    app:layout_constraintBottom_toTopOf="@+id/cl_4"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_2">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_6"
+                        app:layout_constraintTop_toTopOf="@+id/tv_6" />
+
+                    <TextView
+                        android:id="@+id/tv_6"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="304dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Stay informed with the latest market news and announcements."
+                        android:textColor="#CDD5DF"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_15" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_115"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/ic_announcement"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_6"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_15"
+                        app:layout_constraintHorizontal_bias="0.592"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.171" />
+
+                    <TextView
+                        android:id="@+id/tv_15"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="294dp"
+                        android:layout_height="23dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="Announcement"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.761"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:layout_width="330dp"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="#1AFFFFFF"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_15">
+
+                    </FrameLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_4"
+                    android:layout_width="345dp"
+                    android:layout_height="100dp"
+                    android:layout_margin="2dp"
+                    android:background="@drawable/boarder_rounded_with_bg"
+                    android:onClick="@{()->viewModel.historyClick()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cl_3">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_8"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:src="@drawable/baseline_arrow_forward_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/tv_9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/tv_9"
+                        app:layout_constraintTop_toTopOf="@+id/tv_9" />
+
+                    <TextView
+                        android:id="@+id/tv_9"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="304dp"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="12dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="Review all your past trades and transaction records."
+                        android:textColor="#CDD5DF"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.17"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_17" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/iv_118"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:src="@drawable/baseline_history_24"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_9"
+                        app:layout_constraintEnd_toStartOf="@+id/tv_17"
+                        app:layout_constraintHorizontal_bias="0.592"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.171" />
+
+                    <TextView
+                        android:id="@+id/tv_17"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="294dp"
+                        android:layout_height="23dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="14dp"
+                        android:layout_marginEnd="8dp"
+                        android:text="History"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="14dp"
+                        android:textStyle="bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.761"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:layout_width="330dp"
+                        android:layout_height="1dp"
+                        android:layout_marginBottom="8dp"
+                        android:background="#1AFFFFFF"
+                        app:layout_constraintBottom_toTopOf="@+id/tv_9"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_17">
+
+                    </FrameLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@drawable/botom_navigator"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.57"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout6"
+                    android:layout_width="71dp"
+                    android:layout_height="match_parent"
+                    android:onClick="@{()->viewModel.historyClick()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/constraintLayout10"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/appCompatImageView4"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:background="@drawable/baseline_history_24"
+                        android:backgroundTint="#9AA4B2"
+                        android:onClick="@{()->viewModel.historyClick()}"
+                        app:layout_constraintBottom_toTopOf="@+id/textView5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatImageView>
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:onClick="@{()->viewModel.historyClick()}"
+                        android:text="History"
+                        android:textColor="@color/white"
+                        android:textSize="10dp"
+
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView4"
+                        app:layout_constraintStart_toStartOf="@+id/appCompatImageView4"
+                        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView4"></TextView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout7"
+                    android:layout_width="71dp"
+                    android:layout_height="match_parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout8"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/constraintLayout2"
+                        android:layout_width="44dp"
+                        android:layout_height="24dp"
+                        android:background="@drawable/selected_item"
+                        app:layout_constraintBottom_toTopOf="@+id/textView7"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <TextView
+                        android:id="@+id/textView7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:text="Home"
+                        android:textColor="@color/white"
+                        android:textSize="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+                        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+                        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"></TextView>
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/appCompatImageView5"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/baseline_home_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/constraintLayout2"
+                        app:layout_constraintEnd_toEndOf="@+id/constraintLayout2"
+                        app:layout_constraintStart_toStartOf="@+id/constraintLayout2"
+                        app:layout_constraintTop_toTopOf="@+id/constraintLayout2"></androidx.appcompat.widget.AppCompatImageView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout8"
+                    android:layout_width="71dp"
+                    android:layout_height="match_parent"
+                    android:onClick="@{()->viewModel.learnTradingClick()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout9"
+                    app:layout_constraintStart_toEndOf="@+id/constraintLayout7"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/appCompatImageView2"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:background="@drawable/ic_learn_trading"
+                        android:backgroundTint="#9AA4B2"
+                        android:onClick="@{()->viewModel.learnTradingClick()}"
+                        app:layout_constraintBottom_toTopOf="@+id/textView6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatImageView>
+
+
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="26dp"
+                        android:layout_height="11dp"
+                        android:layout_marginBottom="4dp"
+                        android:onClick="@{()->viewModel.learnTradingClick()}"
+                        android:text="Learn"
+                        android:textColor="@color/white"
+
+                        android:textSize="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView2"
+                        app:layout_constraintStart_toStartOf="@+id/appCompatImageView2"
+                        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView2"></TextView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout9"
+                    android:layout_width="71dp"
+                    android:layout_height="match_parent"
+                    android:onClick="@{()->viewModel.startTradingClick()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout10"
+                    app:layout_constraintStart_toEndOf="@+id/constraintLayout8"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/appCompatImageView"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:background="@drawable/baseline_insert_chart_outlined_24"
+                        android:backgroundTint="#9AA4B2"
+                        android:onClick="@{()->viewModel.startTradingClick()}"
+                        app:layout_constraintBottom_toTopOf="@+id/textView4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatImageView>
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:onClick="@{()->viewModel.startTradingClick()}"
+                        android:text="Trading"
+                        android:textColor="@color/white"
+
+                        android:textSize="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView"
+                        app:layout_constraintStart_toStartOf="@+id/appCompatImageView"
+                        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"></TextView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout10"
+                    android:layout_width="71dp"
+                    android:layout_height="match_parent"
+                    android:onClick="@{()->viewModel.announcementClick()}"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/constraintLayout6"
+                    app:layout_constraintStart_toEndOf="@+id/constraintLayout9"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/appCompatImageView3"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+
+                        android:background="@drawable/ic_announcement"
+                        android:backgroundTint="#9AA4B2"
+                        android:onClick="@{()->viewModel.announcementClick()}"
+                        app:layout_constraintBottom_toTopOf="@+id/textView3"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"></androidx.appcompat.widget.AppCompatImageView>
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="4dp"
+                        android:onClick="@{()->viewModel.announcementClick()}"
+                        android:text="Announcement"
+                        android:textColor="@color/white"
+
+                        android:textSize="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/appCompatImageView3"
+                        app:layout_constraintStart_toStartOf="@+id/appCompatImageView3"
+                        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView3"></TextView>
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+        <include xmlns:bind="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/llProgressBar"
+            layout="@layout/loading_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            bind:progressViewModel="@{((com.example.marketix.di.builder.BaseViewModel) viewModel)}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

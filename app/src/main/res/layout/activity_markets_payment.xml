@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".presentation.marketpayment.MarketPaymentActivity">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="com.example.marketix.util.Constants" />
+
+        <variable
+            name="viewModel"
+            type="com.example.marketix.presentation.marketpayment.MarketPaymentViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/back_color">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tv_welcome"
+                fontPath="fonts/NexaBold.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_16sdp"
+                android:text="@={viewModel.marketName}"
+                android:textColor="@color/whiteColor"
+                android:textSize="@dimen/_14ssp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/iv_backpress"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginStart="@dimen/_12sdp"
+                android:onClick="@{()->viewModel.backPressClick()}"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_back_button"
+                app:layout_constraintBottom_toBottomOf="@id/tv_welcome"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_welcome" />
+
+            <ImageView
+                android:id="@+id/iv_profile"
+                android:layout_width="@dimen/_32sdp"
+                android:layout_height="@dimen/_32sdp"
+                android:layout_marginEnd="@dimen/_12sdp"
+                android:onClick="@{()->viewModel.openProfileClick()}"
+                android:padding="@dimen/_4sdp"
+                android:src="@drawable/ic_profile_user"
+                app:layout_constraintBottom_toBottomOf="@id/tv_welcome"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/tv_welcome" />
+
+            <View
+                android:id="@+id/viewTop"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/_8sdp"
+                android:background="@color/dividerViewdimBackground"
+                app:layout_constraintTop_toBottomOf="@+id/tv_welcome" />
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="@dimen/_24sdp"
+                app:layout_constraintBottom_toTopOf="@id/tv_proceed"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tv_welcome">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/cl_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_marginStart="@dimen/_16sdp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginEnd="@dimen/_16sdp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/viewTop">
+
+                    <VideoView
+                        android:id="@+id/vv_video_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/_180sdp"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        android:background="@drawable/boarder_rounded_without_bg"
+                        android:gravity="center"
+                        android:onClick="@{()->viewModel.playVideoClick()}"
+                        android:textColor="@color/greenTitleColor"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        android:visibility="@{viewModel.isVideoDataFound == true? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <com.google.android.material.imageview.ShapeableImageView
+                        android:id="@+id/iv_no_image"
+                        android:layout_width="375dp"
+                        android:layout_height="234dp"
+                        android:layout_marginStart="@dimen/_16sdp"
+                        android:layout_marginTop="@dimen/_32sdp"
+                        android:layout_marginEnd="@dimen/_16sdp"
+                        android:background="@drawable/boarder_rounded_without_bg"
+                        android:gravity="center"
+                        android:textColor="@color/greenTitleColor"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="bold"
+                        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.CornerSize8Percent"
+                        android:visibility="@{viewModel.isVideoDataFound == false? View.VISIBLE : View.GONE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/iv_play"
+                        android:layout_width="@dimen/_64sdp"
+                        android:layout_height="@dimen/_64sdp"
+                        android:padding="@dimen/_4sdp"
+                        android:src="@drawable/ic_play"
+                        android:visibility="@{viewModel.isVideoDataFound == true? View.VISIBLE : View.GONE}"
+                        app:layout_constraintBottom_toBottomOf="@id/vv_video_view"
+                        app:layout_constraintEnd_toEndOf="@id/vv_video_view"
+                        app:layout_constraintStart_toStartOf="@id/vv_video_view"
+                        app:layout_constraintTop_toTopOf="@id/vv_video_view" />
+
+                    <androidx.constraintlayout.widget.Barrier
+                        android:id="@+id/barrier"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:barrierDirection="bottom"
+                        app:constraint_referenced_ids="iv_no_image,vv_video_view" />
+
+                    <TextView
+                        android:id="@+id/tv_payment"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_16sdp"
+                        android:text="@string/text_payment_detail"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="@dimen/_14ssp"
+                        android:textStyle="normal"
+                        app:layout_constraintStart_toStartOf="@id/barrier"
+                        app:layout_constraintTop_toBottomOf="@id/barrier" />
+
+                    <TextView
+                        android:id="@+id/tv_payment_price"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewModel.payment}"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="@dimen/_16ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toBottomOf="@id/tv_payment"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/tv_payment" />
+
+                    <TextView
+                        android:id="@+id/tv_payment_detail"
+                        fontPath="fonts/NexaBold.otf"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_20sdp"
+                        android:text="@={viewModel.paymentdetail}"
+                        android:textColor="@color/whiteColor"
+                        android:textSize="@dimen/_12ssp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@id/tv_payment"
+                        app:layout_constraintTop_toBottomOf="@id/tv_payment" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </ScrollView>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/tv_proceed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="@dimen/_24sdp"
+                android:layout_marginEnd="@dimen/_24sdp"
+                android:layout_marginBottom="@dimen/_20sdp"
+                android:background="@drawable/btn_rounded_gradient_bg"
+                android:drawableTint="@color/colorOrange"
+                android:gravity="center"
+                android:onClick="@{()->viewModel.paymentClick()}"
+                android:text="@string/text_purchase_now"
+                android:textColor="@color/blackColor"
+                android:textStyle="bold"
+                android:textSize="@dimen/_14sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <include xmlns:bind="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/llProgressBar"
+            layout="@layout/loading_progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            bind:progressViewModel="@{((com.example.marketix.di.builder.BaseViewModel) viewModel)}" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

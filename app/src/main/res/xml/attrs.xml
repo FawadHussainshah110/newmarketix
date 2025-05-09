@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="main_background_image" type="image" />
+
+    <!--  Exit Dialog background color  -->
+    <attr name="exit_bg_color" type="color" />
+
+    <attr name="randomTextColor" type="color" />
+    <attr name="randomTextThemeColor" type="color" />
+    <attr name="randomTextDarkColor" type="color" />
+    <attr name="randomTextLightColor" type="color" />
+    <attr name="editTextTitleColor" type="color" />
+    <attr name="editTextColor_" type="color" />
+    <attr name="editTextDarkColor" type="color" />
+    <attr name="editTextHintColor" type="color" />
+    <attr name="dividerViewBackground" type="color" />
+
+    <attr name="toolbarTextColor" type="color" />
+    <attr name="toolbarColor" type="color" />
+
+    <attr name="text" type="color">text</attr>
+
+    <!--  Slogan Text Size  -->
+<!--    <attr name="sloganTextSize" type="dimension" />-->
+    <!--  Toolbar Text Size  -->
+    <attr name="toolbarTextSize" type="dimension" />
+
+
+</resources>
