@@ -6,6 +6,7 @@ import com.example.marketix.data.schedulersprovider.SchedulersProvider
 import com.example.marketix.di.builder.BaseViewModel
 import com.example.marketix.domain.model.CourseLessonData
 import com.example.marketix.domain.repository.CoursesRepository
+import com.example.marketix.domain.repository.PaymentRepository
 import com.example.marketix.domain.repository.PreferencesRepository
 import com.example.marketix.util.Constants
 import com.example.marketix.util.customLog
@@ -17,7 +18,8 @@ class CourseLearningViewModel @Inject constructor(
     private val context: Context,
     private val preferencesRepository: PreferencesRepository,
     private val coursesRepository: CoursesRepository,
-    private val schedulersProvider: SchedulersProvider
+    private val schedulersProvider: SchedulersProvider,
+    private val paymentRepository: PaymentRepository
 ) : BaseViewModel<CourseLearningActivityListener>() {
 
     private val TAG = CourseLearningViewModel::class.java.name
@@ -32,7 +34,17 @@ class CourseLearningViewModel @Inject constructor(
     var noDataFound = MutableLiveData<String>()
     var courseLearningResponse = MutableLiveData<CourseLessonData>()
 
+    fun checkCourseAccess(): Boolean {
+        return paymentRepository.hasCourseAccess(courseid)
+    }
+
     fun getCourseLearningList(pageNo: Int, isProgressShow: Boolean = true) {
+        if (!checkCourseAccess()) {
+            listener.displayMessageListener("You don't have access to this course. Please purchase it first.")
+            return
+        }
+
+
         progressVisibility.postValue(isProgressShow)
         val hashMap = HashMap<String, String>()
         hashMap["page_no"] = pageNo.toString()
@@ -72,6 +84,10 @@ class CourseLearningViewModel @Inject constructor(
         }
     }
 
+    fun setCourseAccess(courseId: String, days: Int) {
+        paymentRepository.setCourseAccess(courseId, days)
+    }
+
     fun backPressClick() {
         listener.backPressActivity()
     }
@@ -91,6 +107,7 @@ class CourseLearningViewModel @Inject constructor(
     fun startTradingClick() {
         listener.startTradingActivity()
     }
+
     fun dashboardClick() {
         listener.dashboardActivity()
     }

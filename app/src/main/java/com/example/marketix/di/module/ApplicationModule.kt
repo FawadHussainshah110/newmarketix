@@ -24,11 +24,12 @@ open class ApplicationModule {
     @Provides
     open fun provideContext(application: Application): Context = application.applicationContext
 
-    @Singleton
+
     @Provides
-    open fun providerScheduler(schedulersFacade: SchedulersFacade): SchedulersProvider {
+    open fun provideSchedulersProvider(): SchedulersProvider {
         return SchedulersFacade()
     }
+
 
     @Singleton
     @Provides

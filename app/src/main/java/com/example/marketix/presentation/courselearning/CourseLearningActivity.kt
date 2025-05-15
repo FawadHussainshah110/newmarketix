@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -15,6 +16,7 @@ import com.example.marketix.databinding.ActivityCourseLearningBinding
 import com.example.marketix.domain.model.LessonItem
 import com.example.marketix.presentation.account.AccountActivity
 import com.example.marketix.presentation.announcement.AnnouncementActivity
+import com.example.marketix.presentation.coursepayment.CoursePaymentActivity
 import com.example.marketix.presentation.dashboard.DashboardActivity
 import com.example.marketix.presentation.fullvideo.FullVideoActivity
 import com.example.marketix.presentation.history.HistoryActivity
@@ -66,6 +68,24 @@ class CourseLearningActivity : DaggerAppCompatActivity(), CourseLearningActivity
         if (intent.hasExtra("courseid"))
             viewModel.courseid = intent.getStringExtra("courseid")!!
 
+        if (!viewModel.checkCourseAccess()) {
+            val price = intent.getStringExtra("price") ?: "0.0"
+            if (price == "0.0") {
+                viewModel.setCourseAccess(viewModel.courseid, 30)
+
+                    viewModel.getCourseLearningList(1, true)
+            } else {
+                intentCall<CoursePaymentActivity> {
+                    putString("title", viewModel.courseName.value)
+                    putString("courseid", viewModel.courseid)
+                    putString("price", price)
+                    putString("paymentdetail", intent.getStringExtra("paymentdetail") ?: "")
+                }
+                finish()
+                return
+            }
+        }
+
         viewModel.getCourseLearningList(1, true)
 
         courseLessonArrayList = ArrayList()
@@ -94,7 +114,6 @@ class CourseLearningActivity : DaggerAppCompatActivity(), CourseLearningActivity
             override fun onScrollStateChanged(@NonNull recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                // already load new data if there are only 2 items left to scroll
                 if (!activity.rvCourseLearning.canScrollVertically(1) && (currentPages < totalPages && isNeedMore)) {
                     viewModel.getCourseLearningList(currentPages + 1, false)
                     isNeedMore = false
@@ -135,7 +154,7 @@ class CourseLearningActivity : DaggerAppCompatActivity(), CourseLearningActivity
     }
 
     override fun dashboardActivity() {
-        intentCall<DashboardActivity>(1) {  }
+        intentCall<DashboardActivity>(1) { }
     }
 
     override fun displayMessageListener(message: String) {
@@ -143,5 +162,4 @@ class CourseLearningActivity : DaggerAppCompatActivity(), CourseLearningActivity
             openLoginActivity()
         }
     }
-
 }

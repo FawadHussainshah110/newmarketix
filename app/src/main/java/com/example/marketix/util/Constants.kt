@@ -85,8 +85,14 @@ object Constants {
     const val VIEW_TYPE_ITEM = 0
     const val VIEW_TYPE_LOADING = 1
 
-
     const val ERROR_410 = 410
 
+    const val NOWPAYMENT_API_KEY = "E1F1VZQ-EBZMHH4-GB3N6Y7-1ZK174J"
+    const val NOWPAYMENT_BASE_URL = "https://api.nowpayments.io/"
 
+    const val PAYMENT_URL = "paymentUrl"
+    const val PAYMENT_ID = "paymentId"
+
+    const val EXTRA_MARKET_ID = "market_id"
+    const val MARKET_ACCESS_PREFIX = "market_access_"
 }

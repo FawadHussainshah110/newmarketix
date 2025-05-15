@@ -93,4 +93,12 @@ class PreferencesHelperImp(private val sharedPreferences: SharedPreferences) : P
         const val PREF_KEY_CURRENT_USER_ID = "MARKETIX_KEY_CURRENT_USER_ID"
         const val PREF_KEY_CURRENT_USER_NAME = "MARKETIX_KEY_CURRENT_USER_NAME"
     }
+
+    override fun setString(key: String, value: String) {
+        sharedPreferences.edit().putString(key, value).apply()
+    }
+
+    override fun getString(key: String, defaultValue: String): String {
+        return sharedPreferences.getString(key, defaultValue) ?: defaultValue
+    }
 }

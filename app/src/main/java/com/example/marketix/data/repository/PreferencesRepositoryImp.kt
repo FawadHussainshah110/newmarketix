@@ -2,11 +2,16 @@ package com.example.marketix.data.repository
 
 import com.example.marketix.data.source.local.prefs.PreferencesHelper
 import com.example.marketix.domain.repository.PreferencesRepository
+import com.example.marketix.util.Constants.MARKET_ACCESS_PREFIX
 import javax.inject.Inject
 
 class PreferencesRepositoryImp @Inject constructor(
     private val preferencesHelper: PreferencesHelper
 ) : PreferencesRepository {
+
+    companion object {
+        private const val COURSE_ACCESS_PREFIX = "course_access_"
+    }
 
     override fun getAccessToken(): String {
         return preferencesHelper.getAccessToken()
@@ -72,5 +77,19 @@ class PreferencesRepositoryImp @Inject constructor(
         preferencesHelper.setAppConfiguration(config)
     }
 
-}
+    override fun setCourseAccess(courseId: String, expiryTime: String) {
+        preferencesHelper.setString("${COURSE_ACCESS_PREFIX}$courseId", expiryTime)
+    }
 
+    override fun getCourseAccess(courseId: String): String {
+        return preferencesHelper.getString("${COURSE_ACCESS_PREFIX}$courseId", "")
+    }
+
+    override fun setMarketAccess(marketId: String, expiryTime: String) {
+        preferencesHelper.setString("${MARKET_ACCESS_PREFIX}$marketId", expiryTime)
+    }
+
+    override fun getMarketAccess(marketId: String): String {
+        return preferencesHelper.getString("${MARKET_ACCESS_PREFIX}$marketId", "")
+    }
+}

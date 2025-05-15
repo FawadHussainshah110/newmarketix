@@ -1,6 +1,7 @@
 package com.example.marketix.presentation.start_trading
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -85,6 +86,8 @@ class MarketsListAdapter(
 //                .into(SvgTarget(itemView.findViewById(R.id.iv_feature)))
 
             SvgLoader.loadSvg(context, model.image, itemView.findViewById(R.id.iv_feature))
+
+            Log.d("MarketData", "Creating MarketItem - ID: ${model.id}, Price: ${model.price}")
 
             itemView.setOnClickListener {
                 listener.clickMarketsListItem(model, position)

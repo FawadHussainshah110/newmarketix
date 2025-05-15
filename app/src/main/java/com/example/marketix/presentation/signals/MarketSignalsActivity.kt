@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.example.marketix.R
 import com.example.marketix.databinding.ActivityMarketSignalsBinding
 import com.example.marketix.domain.model.SignalItem
+import com.example.marketix.domain.repository.PaymentRepository
 import com.example.marketix.presentation.account.AccountActivity
 import com.example.marketix.presentation.announcement.AnnouncementActivity
 import com.example.marketix.presentation.dashboard.DashboardActivity
@@ -37,6 +38,9 @@ class MarketSignalsActivity : DaggerAppCompatActivity(), MarketSignalsActivityLi
     lateinit var marketSignalsListAdapter: MarketSignalsListAdapter
     lateinit var activeMarketSignalArrayList: ArrayList<SignalItem>
     lateinit var finishMarketSignalArrayList: ArrayList<SignalItem>
+
+    @Inject
+    lateinit var paymentRepository: PaymentRepository
 
     var totalPages: Int = 0
     var currentPages: Int = 1
@@ -68,6 +72,12 @@ class MarketSignalsActivity : DaggerAppCompatActivity(), MarketSignalsActivityLi
         if (intent.hasExtra("title")) viewModel.courseName.postValue(intent.getStringExtra("title")!!)
         if (intent.hasExtra("courseid")) viewModel.courseid = intent.getStringExtra("courseid")!!
 
+        if (!paymentRepository.hasMarketAccess(viewModel.courseid)) {
+            alertMessageDialog("You need to purchase access to these market signals") {
+                finish()
+            }
+            return
+        }
         viewModel.tradeType = MARKETS_ACTIVE
         viewModel.getCourseLearningList(1, true)
 

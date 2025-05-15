@@ -24,6 +24,9 @@ interface PreferencesHelper {
     fun getCurrentUserName(): String
     fun setCurrentUserName(userName: String)
 
+    fun setString(key: String, value: String)
+    fun getString(key: String, defaultValue: String): String
+
     companion object {
         const val PREFERENCEs_NAME = "_saeepreferences"
 

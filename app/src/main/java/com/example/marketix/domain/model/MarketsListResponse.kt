@@ -9,7 +9,6 @@ data class MarketsListResponse(
 ) : CommonResponse()
 
 data class MarketItem(
-
     @field:SerializedName("defaultdata")
     val defaultdata: String,
 
@@ -38,8 +37,17 @@ data class MarketItem(
     val id: String,
 
     @field:SerializedName("udate")
-    val udate: String
-)
+    val udate: String,
+
+    @SerializedName("price")
+    private val _price: Double? = null,
+
+    @SerializedName("price_amount")
+    private val priceAmount: Double? = null
+) {
+    val price: Double
+        get() = _price ?: priceAmount ?: 0.0
+}
 
 data class MarketsData(
 
@@ -48,4 +56,6 @@ data class MarketsData(
 
     @field:SerializedName("pagination")
     val pagination: Pagination
+
+
 )

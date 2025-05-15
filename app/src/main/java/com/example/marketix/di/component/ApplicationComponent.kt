@@ -3,6 +3,7 @@ package com.example.marketix.di.component
 import android.app.Application
 import com.example.marketix.MainApplication
 import com.example.marketix.di.module.*
+import com.example.marketix.domain.repository.PaymentRepository
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.AndroidInjectionModule
@@ -31,4 +32,5 @@ interface ApplicationComponent {
     fun inject(application: MainApplication)
     fun callbacks(): Set<Application.ActivityLifecycleCallbacks>
 
+    fun providePaymentRepository(): PaymentRepository
 }

@@ -93,5 +93,6 @@
     <string name="camera">Camera</string>
     <string name="gallery">Gallery</string>
 
-
+    <string name="price_label">Price</string>
+    <string name="free_label">Free</string>
 </resources>

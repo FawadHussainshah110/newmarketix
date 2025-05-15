@@ -3,6 +3,7 @@ package com.example.marketix.di.module
 import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkInfo
+import com.example.marketix.BuildConfig
 import com.example.marketix.data.mapper.AccountsMapper
 import com.example.marketix.data.mapper.AnnouncementsMapper
 import com.example.marketix.data.mapper.CoursesMapper
@@ -15,10 +16,13 @@ import com.example.marketix.data.repository.AnnouncementsRepositoryImp
 import com.example.marketix.data.repository.CoursesRepositoryImp
 import com.example.marketix.data.repository.HistoryRepositoryImp
 import com.example.marketix.data.repository.MarketsRepositoryImp
+import com.example.marketix.data.repository.PaymentRepositoryImp
 import com.example.marketix.data.repository.PreferencesRepositoryImp
 import com.example.marketix.data.repository.SettingsRepositoryImp
 import com.example.marketix.data.repository.UserRepositoryImp
+import com.example.marketix.data.schedulersprovider.SchedulersProvider
 import com.example.marketix.data.source.local.prefs.PreferencesHelper
+import com.example.marketix.data.source.remote.NowPaymentService
 import com.example.marketix.data.source.remote.RetrofitService
 import com.example.marketix.domain.model.DataOrEmptyArray
 import com.example.marketix.domain.model.DataOrEmptyArrayDeserializer
@@ -27,9 +31,11 @@ import com.example.marketix.domain.repository.AnnouncementsRepository
 import com.example.marketix.domain.repository.CoursesRepository
 import com.example.marketix.domain.repository.HistoryRepository
 import com.example.marketix.domain.repository.MarketsRepository
+import com.example.marketix.domain.repository.PaymentRepository
 import com.example.marketix.domain.repository.PreferencesRepository
 import com.example.marketix.domain.repository.SettingsRepository
 import com.example.marketix.domain.repository.UserRepository
+import com.example.marketix.presentation.courselearning.CourseLearningViewModel
 import com.example.marketix.util.Constants
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -42,6 +48,7 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module(includes = [ApplicationModule::class])
@@ -49,6 +56,25 @@ open class NetworkModule {
 
     @Provides
     @Singleton
+    @Named("nowPaymentRetrofit")
+    fun provideNowPaymentRetrofit(okHttpClient: OkHttpClient): Retrofit {
+        return Retrofit.Builder()
+            .baseUrl(Constants.NOWPAYMENT_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .build()
+    }
+
+    @Provides
+    @Singleton
+    fun provideNowPaymentService(@Named("nowPaymentRetrofit") retrofit: Retrofit): NowPaymentService {
+        return retrofit.create(NowPaymentService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    @Named("marketixRetrofit")
     open fun providesRetrofit(
         gsonConverterFactory: GsonConverterFactory,
         rxJava2CallAdapterFactory: RxJava2CallAdapterFactory,
@@ -73,39 +99,30 @@ open class NetworkModule {
 
     @Provides
     @Singleton
-    open fun providesOkHttpClient(context: Context, isNetworkAvailable: Boolean): OkHttpClient {
-        val cacheSize = (5 * 1024 * 1024).toLong()
-        val mCache = Cache(context.cacheDir, cacheSize)
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val client = OkHttpClient.Builder()
-            .cache(mCache) // make your app offline-friendly without a database!
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .addNetworkInterceptor(interceptor)
+    fun provideService(@Named("marketixRetrofit") retrofit: Retrofit): RetrofitService {
+        return retrofit.create(RetrofitService::class.java)
+    }
+
+
+    @Provides
+    @Singleton
+    fun provideNowPaymentOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
             .addInterceptor { chain ->
-                var request = chain.request()
-                /* If there is Internet, get the cache that was stored 5 seconds ago.
-                 * If the cache is older than 5 seconds, then discard it,
-                 * and indicate an error in fetching the response.
-                 * The 'max-age' attribute is responsible for this behavior.
-                 */
-                request = if (isNetworkAvailable) request.newBuilder()
-                    .header("Cache-Control", "public, max-age=" + 5).build()
-                /*If there is no Internet, get the cache that was stored 7 days ago.
-                 * If the cache is older than 7 days, then discard it,
-                 * and indicate an error in fetching the response.
-                 * The 'max-stale' attribute is responsible for this behavior.
-                 * The 'only-if-cached' attribute indicates to not retrieve new data; fetch the cache only instead.
-                 */
-                else request.newBuilder().header(
-                    "Cache-Control",
-                    "public, only-if-cached, max-stale=" + 60 * 60 * 24 * 7
-                ).build()
+                val request = chain.request().newBuilder()
+                    .addHeader("x-api-key", Constants.NOWPAYMENT_API_KEY)
+                    .addHeader("Content-Type", "application/json")
+                    .build()
                 chain.proceed(request)
             }
-        return client.build()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) HttpLoggingInterceptor.Level.BODY
+                else HttpLoggingInterceptor.Level.NONE
+            })
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
     }
 
     @Provides
@@ -126,6 +143,16 @@ open class NetworkModule {
         return RxJava2CallAdapterFactory.create()
     }
 
+    @Singleton
+    @Provides
+    fun providePaymentRepository(
+        nowPaymentService: NowPaymentService,
+        schedulersProvider: SchedulersProvider,
+        preferencesRepository: PreferencesRepository
+    ): PaymentRepository {
+        return PaymentRepositoryImp(nowPaymentService, schedulersProvider, preferencesRepository)
+    }
+
     @Provides
     @Singleton
     open fun provideIsNetworkAvailable(context: Context): Boolean {
@@ -133,12 +160,6 @@ open class NetworkModule {
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val activeNetwork: NetworkInfo? = connectivityManager.activeNetworkInfo
         return activeNetwork != null && activeNetwork.isConnected
-    }
-
-    @Singleton
-    @Provides
-    open fun provideService(retrofit: Retrofit): RetrofitService {
-        return retrofit.create(RetrofitService::class.java)
     }
 
     @Singleton
@@ -205,4 +226,21 @@ open class NetworkModule {
         return MarketsRepositoryImp(retrofitService) { marketsMapper }
     }
 
+    @Provides
+    @Singleton
+    fun provideCourseLearningViewModel(
+        context: Context,
+        preferencesRepository: PreferencesRepository,
+        coursesRepository: CoursesRepository,
+        schedulersProvider: SchedulersProvider,
+        paymentRepository: PaymentRepository
+    ): CourseLearningViewModel {
+        return CourseLearningViewModel(
+            context,
+            preferencesRepository,
+            coursesRepository,
+            schedulersProvider,
+            paymentRepository
+        )
+    }
 }

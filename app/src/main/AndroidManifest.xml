@@ -25,6 +25,9 @@
         android:theme="@style/Theme.Marketix"
         tools:ignore="LockedOrientationActivity">
         <activity
+            android:name=".presentation.start_trading.MarketPaymentActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.webpage.PaymentWebPageActivity"
             android:exported="false" />
 
@@ -72,8 +75,8 @@
             android:exported="false" />
         <activity
             android:name=".presentation.signupverification.SignupVerificationActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.account.AccountActivity"
             android:exported="false" />
@@ -100,8 +103,8 @@
             android:exported="false" />
         <activity
             android:name=".presentation.signup.SignupActivity"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false" />
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".presentation.splash.SplashActivity"
             android:exported="true"

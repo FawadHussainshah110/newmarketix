@@ -1,8 +1,11 @@
 package com.example.marketix.presentation.start_trading
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.NonNull
 import androidx.annotation.RequiresApi
 import androidx.databinding.DataBindingUtil
@@ -21,6 +24,7 @@ import com.example.marketix.presentation.learn_trading.LearnTradingActivity
 import com.example.marketix.presentation.login.LoginActivity
 import com.example.marketix.presentation.signals.MarketSignalsActivity
 import com.example.marketix.presentation.signup.SignupActivity
+import com.example.marketix.presentation.webpage.PaymentWebPageActivity
 import com.example.marketix.util.alertMessageDialog
 import com.example.marketix.util.intentCall
 import dagger.android.support.DaggerAppCompatActivity
@@ -49,6 +53,18 @@ class StartTradingActivity : DaggerAppCompatActivity(), StartTradingActivityList
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase!!))
     }
 
+    private val paymentResultLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == RESULT_OK) {
+            val paymentId = result.data?.getStringExtra("paymentId")
+            paymentId?.let {
+                viewModel.checkPaymentStatus(it)
+            }
+        }
+    }
+
+
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,14 +77,8 @@ class StartTradingActivity : DaggerAppCompatActivity(), StartTradingActivityList
         marketsArrayList = ArrayList()
         marketsAdapter = MarketsListAdapter(this, this)
 
-        activity.rvCourses.setLayoutManager(GridLayoutManager(this, 2))
-
-        val layoutManager =
-            LinearLayoutManager(this@StartTradingActivity, LinearLayoutManager.VERTICAL, false)
-        activity.rvCourses.setLayoutManager(GridLayoutManager(this, 1))
-//        activity.rvHistory.layoutManager = layoutManager
+        activity.rvCourses.setLayoutManager(LinearLayoutManager(this))
         activity.rvCourses.adapter = marketsAdapter
-
         marketsAdapter.addData(marketsArrayList, false)
 
         viewModel.marketsResponse.observe(this) {
@@ -78,6 +88,30 @@ class StartTradingActivity : DaggerAppCompatActivity(), StartTradingActivityList
                 marketsArrayList.addAll(it.market)
                 marketsAdapter.addData(marketsArrayList, isNeedMore)
             }
+        }
+
+        viewModel.invoiceData.observe(this) { paymentData ->
+            paymentData?.let {
+                openPaymentWebPage(it.invoice_url, viewModel.selectedMarketId, viewModel.selectedMarketPrice)
+            }
+        }
+
+        viewModel.paymentStatus.observe(this) { status ->
+            when (status?.lowercase()) {
+                "success" -> {
+                    // Payment successful, open market signals
+                    viewModel.marketsResponse.value?.market?.find { it.id == viewModel.selectedMarketId }?.let {
+                        openMarketSignals(it)
+                    }
+                }
+                "failed", "expired" -> {
+                    alertMessageDialog("Payment failed. Please try again.") {}
+                }
+            }
+        }
+
+        viewModel.errorMessage.observe(this) { message ->
+            message?.let { alertMessageDialog(it) {} }
         }
 
         activity.rvCourses.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -92,6 +126,31 @@ class StartTradingActivity : DaggerAppCompatActivity(), StartTradingActivityList
             }
         })
 
+    }
+
+    override fun openMarketSignals(market: MarketItem) {
+        intentCall<MarketSignalsActivity> {
+            putString("title", market.name)
+            putString("courseid", market.id)
+        }
+    }
+
+    override fun openPaymentWebPage(url: String, marketId: String, price: String) {
+        val intent = Intent(this, PaymentWebPageActivity::class.java).apply {
+            putExtra("payment_url", url)
+            putExtra("marketId", marketId)
+            putExtra("price", price)
+        }
+        paymentResultLauncher.launch(intent)
+    }
+
+//    override fun clickMarketsListItem(model: MarketItem, position: Int) {
+//        Log.d("MarketPriceDebug", "Market price: ${model.price}, ID: ${model.id}")
+//        viewModel.handleMarketSelection(model)
+//    }
+
+    override fun clickMarketsListItem(model: MarketItem, position: Int) {
+        viewModel.handleMarketSelection(model)
     }
 
     override fun backPressActivity() {
@@ -122,17 +181,18 @@ class StartTradingActivity : DaggerAppCompatActivity(), StartTradingActivityList
         intentCall<DashboardActivity>(1){}
     }
 
-    override fun clickMarketsListItem(model: MarketItem, position: Int) {
-        intentCall<MarketSignalsActivity> {
-            putString("title", model.name)
-            putString("courseid", model.id)
-        }
-    }
+//    override fun clickMarketsListItem(model: MarketItem, position: Int) {
+//        intentCall<MarketSignalsActivity> {
+//            putString("title", model.name)
+//            putString("courseid", model.id)
+//        }
+//    }
 
     override fun displayMessageListener(message: String) {
         this@StartTradingActivity.alertMessageDialog(message) {
             openLoginActivity()
         }
     }
+
 
 }

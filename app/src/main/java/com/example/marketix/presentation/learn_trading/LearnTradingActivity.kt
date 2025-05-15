@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.NonNull
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.marketix.R
 import com.example.marketix.databinding.ActivityLearnTradingBinding
 import com.example.marketix.domain.model.CourseItem
+import com.example.marketix.domain.repository.PaymentRepository
 import com.example.marketix.presentation.account.AccountActivity
 import com.example.marketix.presentation.announcement.AnnouncementActivity
 import com.example.marketix.presentation.courselearning.CourseLearningActivity
@@ -45,12 +47,16 @@ class LearnTradingActivity : DaggerAppCompatActivity(), LearnTradingActivityList
     var totalPages: Int = 0
     var currentPages: Int = 1
     var isNeedMore: Boolean = true
+    private var lastPurchasedCourseId: String? = null
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private val viewModel: LearnTradingViewModel by lazy {
         ViewModelProvider(this, viewModelFactory).get(LearnTradingViewModel::class.java)
     }
+
+    @Inject
+    lateinit var paymentRepository: PaymentRepository
 
     override fun attachBaseContext(newBase: Context?) {
         super.attachBaseContext(ViewPumpContextWrapper.wrap(newBase!!))
@@ -60,18 +66,28 @@ class LearnTradingActivity : DaggerAppCompatActivity(), LearnTradingActivityList
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             when (result.resultCode) {
                 Constants.COURSES_PAYMENT -> {
-                    val intent: Intent = result.data!!
-                    if (intent.getIntExtra("data", 0) == 1) {
-                        coursesArrayList = ArrayList()
-                        viewModel.getCoursesList(1)
+                    val intent: Intent? = result.data
+                    if (intent?.getIntExtra("data", 0) == 1) {
+                        // Payment was successful
+                        val courseId = intent.getStringExtra("courseId") ?: lastPurchasedCourseId
+                        courseId?.let {
+                            // Refresh the course list
+                            coursesArrayList = ArrayList()
+                            viewModel.getCoursesList(1)
+
+                            // Navigate to the purchased course
+                            viewModel.coursesResponse.value?.course?.find { it.id == courseId }?.let { course ->
+                                navigateToCourseLearning(course)
+                            }
+                        }
                     }
                 }
                 Constants.MARKETS_PAYMENT -> {
-                    val intent: Intent = result.data!!
-                    if (intent.getIntExtra("data", 0) == 1)
+                    val intent: Intent? = result.data
+                    if (intent?.getIntExtra("data", 0) == 1) {
                         viewModel.getCourseLearningList()
+                    }
                 }
-
             }
         }
 
@@ -93,17 +109,26 @@ class LearnTradingActivity : DaggerAppCompatActivity(), LearnTradingActivityList
         val layoutManager =
             LinearLayoutManager(this@LearnTradingActivity, LinearLayoutManager.VERTICAL, false)
         activity.rvCourses.setLayoutManager(GridLayoutManager(this, 1))
-//        activity.rvHistory.layoutManager = layoutManager
         activity.rvCourses.adapter = coursesAdapter
 
         coursesAdapter.addData(coursesArrayList, false)
 
-        viewModel.coursesResponse.observe(this) {
-            it.let {
+        viewModel.coursesResponse.observe(this) { response ->
+            response?.let {
                 totalPages = it.pagination.totalpages
                 isNeedMore = totalPages != currentPages
                 coursesArrayList.addAll(it.course)
                 coursesAdapter.addData(coursesArrayList, isNeedMore)
+
+                // After refresh, check if we need to navigate to a purchased course
+                lastPurchasedCourseId?.let { courseId ->
+                    it.course.find { course -> course.id == courseId }?.let { course ->
+                        if (course.purchased == true) {
+                            navigateToCourseLearning(course)
+                            lastPurchasedCourseId = null // Reset after navigation
+                        }
+                    }
+                }
             }
         }
 
@@ -111,22 +136,46 @@ class LearnTradingActivity : DaggerAppCompatActivity(), LearnTradingActivityList
             override fun onScrollStateChanged(@NonNull recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
 
-                // already load new data if there are only 2 items left to scroll
                 if (!activity.rvCourses.canScrollVertically(1) && (currentPages < totalPages && isNeedMore)) {
                     viewModel.getCoursesList(currentPages + 1, false)
                     isNeedMore = false
                 }
             }
         })
+
         viewModel.marketSignalPurchasedData.observe(this) {
-            it.let {
+            it?.let {
                 if (it.purchased) {
                     intentCall<StartTradingActivity>(1) { }
-                } else
+                } else {
                     intentCallForResult<MarketPaymentActivity>(startForResult) {}
+                }
             }
         }
+    }
 
+    private fun navigateToCourseLearning(course: CourseItem) {
+        intentCall<CourseLearningActivity> {
+            putString("title", course.name)
+            putString("courseid", course.id)
+            // Add any other necessary extras
+        }
+    }
+
+    override fun clickCoursesListItem(model: CourseItem, position: Int) {
+//        if (model.purchased == true) {
+        if (paymentRepository.hasCourseAccess(model.id)) {
+            navigateToCourseLearning(model)
+        } else {
+            Log.d("PRICEFINDING ", "${model.price}")
+            lastPurchasedCourseId = model.id // Store the course ID in case payment succeeds
+            intentCallForResult<CoursePaymentActivity>(startForResult) {
+                putString("title", model.name)
+                putString("courseid", model.id)
+                putString("price", model.price)
+                putString("paymentdetail", model.description)
+            }
+        }
     }
 
     override fun backPressActivity() {
@@ -147,27 +196,10 @@ class LearnTradingActivity : DaggerAppCompatActivity(), LearnTradingActivityList
 
     override fun startTradingActivity() {
         viewModel.getCourseLearningList()
-//        intentCall<StartTradingActivity>(1) { }
     }
 
     override fun opendashboardActivity() {
-        intentCall<DashboardActivity>(1) {  }
-    }
-
-    override fun clickCoursesListItem(model: CourseItem, position: Int) {
-        if (model.purchased == true) {
-            intentCall<CourseLearningActivity> {
-                putString("title", model.name)
-                putString("courseid", model.id)
-            }
-        } else {
-            intentCallForResult<CoursePaymentActivity>(startForResult) {
-                putString("title", model.name)
-                putString("courseid", model.id)
-                putString("price", model.price)
-                putString("paymentdetail", model.description)
-            }
-        }
+        intentCall<DashboardActivity>(1) { }
     }
 
     override fun openProfileActivity() {
@@ -179,5 +211,4 @@ class LearnTradingActivity : DaggerAppCompatActivity(), LearnTradingActivityList
             openLoginActivity()
         }
     }
-
 }

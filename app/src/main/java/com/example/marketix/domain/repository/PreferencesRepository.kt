@@ -26,4 +26,10 @@ interface PreferencesRepository {
     fun getAppConfiguration(): String
     fun setAppConfiguration(config: String)
 
+    fun setCourseAccess(courseId: String, expiryTime: String)
+    fun getCourseAccess(courseId: String): String
+
+    fun setMarketAccess(marketId: String, expiryTime: String)
+    fun getMarketAccess(marketId: String): String
+
 }
